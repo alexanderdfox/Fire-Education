@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Safely Put Out Fires — A Simple Guide</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #1a222d;
+      --surface2: #232d3b;
+      --text: #e8eef5;
+      --muted: #94a3b8;
+      --accent: #f97316;
+      --safe: #22c55e;
+      --warn: #eab308;
+      --danger: #ef4444;
+      --a: #dc2626;
+      --b: #ea580c;
+      --c: #2563eb;
+      --d: #7c3aed;
+      --k: #ca8a04;
+      --radius: 14px;
+      --max: 920px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 1.05rem;
+    }
+
+    header {
+      background: linear-gradient(160deg, #1e293b 0%, #0f1419 70%);
+      border-bottom: 1px solid #334155;
+      padding: 2.5rem 1.25rem 2rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: clamp(1.6rem, 5vw, 2.35rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+    }
+
+    header p {
+      color: var(--muted);
+      max-width: 36rem;
+      margin: 0 auto;
+      font-size: 1rem;
+    }
+
+    .emergency {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1.25rem;
+      padding: 0.85rem 1.25rem;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      border-radius: var(--radius);
+      max-width: 32rem;
+      margin-left: auto;
+      margin-right: auto;
+      font-weight: 600;
+      color: #fecaca;
+    }
+
+    .emergency strong { font-size: 1.15rem; color: #fff; }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(15, 20, 25, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #334155;
+      overflow-x: auto;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 0.25rem;
+      padding: 0.6rem 1rem;
+      max-width: calc(var(--max) + 2rem);
+      margin: 0 auto;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      white-space: nowrap;
+      padding: 0.45rem 0.75rem;
+      border-radius: 8px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    nav a:hover { background: var(--surface2); color: var(--text); }
+
+    main {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+    }
+
+    section { margin-bottom: 3rem; }
+
+    h2 {
+      font-size: clamp(1.25rem, 4vw, 1.55rem);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--surface2);
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      margin: 1.25rem 0 0.5rem;
+    }
+
+    p, li { color: #cbd5e1; }
+
+    .lead { font-size: 1.08rem; margin-bottom: 1rem; }
+
+    .card-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid #334155;
+      border-radius: var(--radius);
+      padding: 1.15rem 1.25rem;
+    }
+
+    .card.class-a { border-left: 4px solid var(--a); }
+    .card.class-b { border-left: 4px solid var(--b); }
+    .card.class-c { border-left: 4px solid var(--c); }
+    .card.class-d { border-left: 4px solid var(--d); }
+    .card.class-k { border-left: 4px solid var(--k); }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+    }
+
+    .badge-a { background: rgba(220, 38, 38, 0.2); color: #fca5a5; }
+    .badge-b { background: rgba(234, 88, 12, 0.2); color: #fdba74; }
+    .badge-c { background: rgba(37, 99, 235, 0.2); color: #93c5fd; }
+    .badge-d { background: rgba(124, 58, 237, 0.2); color: #c4b5fd; }
+    .badge-k { background: rgba(202, 138, 4, 0.2); color: #fde047; }
+
+    .card h3 { margin-top: 0; }
+
+    .do-dont {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    .do, .dont {
+      padding: 0.65rem 0.85rem;
+      border-radius: 10px;
+      font-size: 0.92rem;
+    }
+
+    .do {
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+    }
+
+    .do::before {
+      content: "✓ Safe: ";
+      font-weight: 700;
+      color: var(--safe);
+    }
+
+    .dont {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+    }
+
+    .dont::before {
+      content: "✗ Never: ";
+      font-weight: 700;
+      color: var(--danger);
+    }
+
+    .callout {
+      border-radius: var(--radius);
+      padding: 1rem 1.15rem;
+      margin: 1rem 0;
+    }
+
+    .callout-warn {
+      background: rgba(234, 179, 8, 0.1);
+      border: 1px solid rgba(234, 179, 8, 0.3);
+    }
+
+    .callout-warn strong { color: #fde047; }
+
+    .callout-danger {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+
+    .callout-danger strong { color: #fca5a5; }
+
+    .callout-safe {
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+    }
+
+    .callout-safe strong { color: #86efac; }
+
+    ol.steps, ul.bullets {
+      padding-left: 1.35rem;
+      margin: 0.75rem 0;
+    }
+
+    ol.steps li, ul.bullets li { margin-bottom: 0.45rem; }
+
+    .pass {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.85rem;
+      margin-top: 1rem;
+    }
+
+    .pass div {
+      background: var(--surface2);
+      border-radius: var(--radius);
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .pass span {
+      display: block;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      margin-top: 1rem;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 0.65rem 0.75rem;
+      border-bottom: 1px solid #334155;
+    }
+
+    th { color: var(--muted); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    .yes { color: var(--safe); font-weight: 600; }
+    .no { color: var(--danger); font-weight: 600; }
+
+    .scenario {
+      background: var(--surface);
+      border: 1px solid #334155;
+      border-radius: var(--radius);
+      padding: 1.15rem 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .scenario h3 { margin-top: 0; color: #f8fafc; }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1.25rem;
+      border-top: 1px solid #334155;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    footer p { max-width: 40rem; margin: 0 auto 0.5rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>How to Safely Put Out Fires</h1>
+    <p>A plain-language guide to fire types, what works, what makes things worse, and when your only job is to get out and call for help.</p>
+    <div class="emergency" role="note">
+      <span aria-hidden="true">🚨</span>
+      <span>Life in danger or fire spreading? <strong>Get out. Call 911.</strong> Do not stay to fight it.</span>
+    </div>
+  </header>
+
+  <nav aria-label="Page sections">
+    <ul>
+      <li><a href="#when-not">When not to fight</a></li>
+      <li><a href="#classes">Fire classes</a></li>
+      <li><a href="#extinguisher">Extinguishers</a></li>
+      <li><a href="#scenarios">Common situations</a></li>
+      <li><a href="#special">Special cases</a></li>
+      <li><a href="#prevention">Prevention</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section id="when-not">
+      <h2>First rule: know when NOT to fight a fire</h2>
+      <p class="lead">Most injuries happen when someone tries to be a hero. Fire spreads in seconds. Only attempt to put out a fire if <em>all</em> of these are true:</p>
+      <ul class="bullets">
+        <li>The fire is <strong>small</strong> — about the size of a wastepaper basket or smaller.</li>
+        <li>You have the <strong>right tool</strong> (correct extinguisher or safe method).</li>
+        <li>You are not trapped and have a <strong>clear exit</strong> behind you.</li>
+        <li>The room is <strong>not full of smoke</strong> — smoke kills faster than flames.</li>
+        <li>You are <strong>not alone</strong> in a large building — others may need help evacuating.</li>
+      </ul>
+
+      <div class="callout callout-danger">
+        <strong>Leave immediately if:</strong> the fire grows, you can't breathe, the extinguisher runs empty, you don't know what's burning, or you're unsure. Close doors behind you to slow spread. Call 911 from outside.
+      </div>
+    </section>
+
+    <section id="classes">
+      <h2>Five types of fire — use the wrong method and it explodes</h2>
+      <p class="lead">Fires are grouped by what is burning. Water saves one type and detonates another. Match the method to the class.</p>
+
+      <div class="card-grid">
+        <article class="card class-a">
+          <span class="badge badge-a">CLASS A</span>
+          <h3>Ordinary solids</h3>
+          <p>Wood, paper, cloth, cardboard, most plastics, furniture.</p>
+          <div class="do-dont">
+            <div class="do">Water, ABC dry chemical, foam. Cool and soak until no heat remains.</div>
+            <div class="dont">Use water on any other class without knowing it's safe.</div>
+          </div>
+        </article>
+
+        <article class="card class-b">
+          <span class="badge badge-b">CLASS B</span>
+          <h3>Flammable liquids &amp; gases</h3>
+          <p>Gasoline, paint, oil (not cooking grease — see Class K), propane, solvents.</p>
+          <div class="do-dont">
+            <div class="do">BC or ABC dry chemical, CO₂, or foam. Shut off gas if safe.</div>
+            <div class="dont">Water — it spreads burning liquid and can cause a violent flare-up.</div>
+          </div>
+        </article>
+
+        <article class="card class-c">
+          <span class="badge badge-c">CLASS C</span>
+          <h3>Electrical equipment</h3>
+          <p>Anything plugged in or wired while energized: appliances, panels, chargers.</p>
+          <div class="do-dont">
+            <div class="do">Turn off power at the breaker if safe, then treat as Class A. Use CO₂ or ABC while energized.</div>
+            <div class="dont">Water on live equipment — risk of shock and worse fire.</div>
+          </div>
+        </article>
+
+        <article class="card class-d">
+          <span class="badge badge-d">CLASS D</span>
+          <h3>Combustible metals</h3>
+          <p>Magnesium, titanium, sodium, potassium — labs and some industrial sites.</p>
+          <div class="do-dont">
+            <div class="do">Only a Class D dry powder extinguisher rated for that metal.</div>
+            <div class="dont">Water, foam, or ABC — can cause violent reactions or hydrogen explosions.</div>
+          </div>
+        </article>
+
+        <article class="card class-k">
+          <span class="badge badge-k">CLASS K</span>
+          <h3>Kitchen cooking oils &amp; fats</h3>
+          <p>Deep fryers, pans of oil, animal fat — common at home and in restaurants.</p>
+          <div class="do-dont">
+            <div class="do">Smother with a metal lid, Class K wet chemical, or baking soda on tiny fires.</div>
+            <div class="dont">Water — it instantly turns to steam and throws burning oil everywhere.</div>
+          </div>
+        </article>
+      </div>
+
+      <h3>Quick reference chart</h3>
+      <div style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Class A</th>
+              <th>Class B</th>
+              <th>Class C</th>
+              <th>Class D</th>
+              <th>Class K</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Water</td><td class="yes">Yes</td><td class="no">No</td><td class="no">No*</td><td class="no">No</td><td class="no">No</td></tr>
+            <tr><td>ABC dry chemical</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="no">No</td><td class="no">No</td></tr>
+            <tr><td>CO₂</td><td class="no">Limited</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="no">No</td><td class="no">No</td></tr>
+            <tr><td>Class K wet chemical</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="yes">Yes</td></tr>
+            <tr><td>Class D powder</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="yes">Yes</td><td class="no">No</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:0.88rem;color:var(--muted);margin-top:0.5rem">*Water on electrical is only OK after power is fully shut off and you treat it as Class A.</p>
+    </section>
+
+    <section id="extinguisher">
+      <h2>Using a fire extinguisher — the PASS method</h2>
+      <p class="lead">Stand 6–8 feet (2 m) away with your exit at your back. Aim low at the base of the flame, not the top.</p>
+
+      <div class="pass" aria-label="PASS method">
+        <div><span>P</span>Pull the pin</div>
+        <div><span>A</span>Aim at the base of the fire</div>
+        <div><span>S</span>Squeeze the handle</div>
+        <div><span>S</span>Sweep side to side slowly</div>
+      </div>
+
+      <div class="callout callout-warn" style="margin-top:1.25rem">
+        <strong>Check the label before you use it.</strong> Home kitchens benefit from an ABC extinguisher <em>and</em> knowing how to smother grease fires. A typical extinguisher only gives you about 10 seconds of spray.
+      </div>
+
+      <h3>Which extinguisher to buy</h3>
+      <ul class="bullets">
+        <li><strong>Home / office:</strong> ABC dry chemical (5 lb or larger), mounted near exits — not buried in a closet.</li>
+        <li><strong>Kitchen:</strong> ABC plus a metal lid nearby; consider a small Class K if you deep-fry often.</li>
+        <li><strong>Garage / workshop:</strong> ABC; keep flammable liquids in closed metal cabinets away from heat.</li>
+        <li><strong>Check yearly:</strong> gauge in the green zone, pin intact, no damage. Replace or recharge after any use.</li>
+      </ul>
+    </section>
+
+    <section id="scenarios">
+      <h2>Common situations — step by step</h2>
+
+      <article class="scenario">
+        <h3>🔥 Grease fire on the stove</h3>
+        <ol class="steps">
+          <li>Turn off the burner if you can reach it safely — no moving the pan.</li>
+          <li>Slide a <strong>metal lid</strong> over the pan to cut off oxygen. Leave it on until completely cool (30+ minutes).</li>
+          <li>If no lid: use a Class K or ABC extinguisher aimed at the base — not a blast from above.</li>
+          <li>Tiny flare-up only: handful of <strong>baking soda</strong> (not baking powder, not flour).</li>
+        </ol>
+        <div class="dont" style="margin-top:0.75rem">Never use water, wet towel, or fan — they spread burning grease.</div>
+      </article>
+
+      <article class="scenario">
+        <h3>🔥 Oven or microwave fire</h3>
+        <ol class="steps">
+          <li>Keep the door <strong>closed</strong> — oxygen feeds fire.</li>
+          <li>Turn off the appliance and unplug if reachable without opening the door.</li>
+          <li>If flames escape the appliance or don't die quickly: evacuate and call 911.</li>
+        </ol>
+      </article>
+
+      <article class="scenario">
+        <h3>🔥 Trash can or small paper fire</h3>
+        <ol class="steps">
+          <li>Pull the bin away from walls and curtains if safe.</li>
+          <li>Use water, blanket, or ABC extinguisher until cold.</li>
+          <li>Watch for re-ignition — embers can smolder inside paper.</li>
+        </ol>
+      </article>
+
+      <article class="scenario">
+        <h3>🔥 Electrical outlet or appliance</h3>
+        <ol class="steps">
+          <li>Shut off power at the <strong>circuit breaker</strong> — not just the switch.</li>
+          <li>Use ABC or CO₂ if fire continues; never water while energized.</li>
+          <li>Have an electrician inspect before turning the circuit back on.</li>
+        </ol>
+      </article>
+
+      <article class="scenario">
+        <h3>🔥 Gasoline, paint, or garage fluid fire</h3>
+        <ol class="steps">
+          <li>Shut off the fuel source if you can without crossing the fire.</li>
+          <li>Use ABC dry chemical or foam — not water.</li>
+          <li>Evacuate if the pool of liquid is larger than a dinner plate.</li>
+        </ol>
+      </article>
+
+      <article class="scenario">
+        <h3>🔥 Clothes on fire (on a person)</h3>
+        <ol class="steps">
+          <li><strong>Stop, Drop, and Roll</strong> — don't run (fanning adds oxygen).</li>
+          <li>Smother with a heavy coat or blanket; cool burns with water after flames are out.</li>
+          <li>Call 911 — even small burns need medical attention.</li>
+        </ol>
+      </article>
+
+      <article class="scenario">
+        <h3>🔥 Candle, cigarette, or sofa cushion</h3>
+        <ol class="steps">
+          <li>Remove oxygen: snuff candle, smother cushion with heavy blanket.</li>
+          <li>Douse with water once flames are out if material is Class A (fabric, wood).</li>
+          <li>If cushion or sofa is fully involved: leave — foam furniture burns fast and releases toxic smoke.</li>
+        </ol>
+      </article>
+
+      <article class="scenario">
+        <h3>🔥 Wildfire / brush near your home</h3>
+        <ol class="steps">
+          <li>Follow evacuation orders immediately — garden hoses cannot stop a wildfire.</li>
+          <li>Close all windows and doors if you have time while leaving.</li>
+          <li>Do not stay to "spray the roof" unless officials say it's safe and you have a clear escape route.</li>
+        </ol>
+      </article>
+    </section>
+
+    <section id="special">
+      <h2>Special cases &amp; myths</h2>
+
+      <div class="card-grid">
+        <div class="card">
+          <h3>Smoke is the real killer</h3>
+          <p>Stay low under smoke. Before opening a closed door, feel it with the back of your hand. If it's hot, use another exit. Smoke one breath can disorient you — that's when people get trapped.</p>
+        </div>
+        <div class="card">
+          <h3>Don't use flour on grease fires</h3>
+          <p>Flour and powdered sugar are combustible dust. Baking soda works on tiny fires because it releases CO₂. A fire blanket or lid is more reliable.</p>
+        </div>
+        <div class="card">
+          <h3>CO₂ extinguishers</h3>
+          <p>Good for electronics and liquids. No cleanup residue, but the discharge is extremely cold and can displace oxygen in small rooms — ventilate and leave if the room feels stuffy.</p>
+        </div>
+        <div class="card">
+          <h3>Halon / clean agents</h3>
+          <p>Found in server rooms and aircraft. Effective on sensitive equipment. Follow facility training — not typical for homes.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-safe" style="margin-top:1.25rem">
+        <strong>After any fire:</strong> Even if you think it's out, check for hidden heat with the back of your hand near walls and ceilings. Re-ignite is common. When in doubt, call the fire department — they'd rather inspect a small incident than fight a house fire.
+      </div>
+    </section>
+
+    <section id="prevention">
+      <h2>Prevention beats every extinguisher</h2>
+      <ul class="bullets">
+        <li>Install smoke alarms on every level; test monthly; replace batteries or units per manufacturer (typically every 10 years).</li>
+        <li>Never leave cooking unattended — most home fires start in the kitchen.</li>
+        <li>Keep space heaters 3 feet from anything flammable; plug directly into wall outlets.</li>
+        <li>Store gasoline and solvents outside living areas in approved containers.</li>
+        <li>Don't overload power strips; replace frayed cords.</li>
+        <li>Plan two exits from every room and a meeting spot outside. Practice with your household twice a year.</li>
+        <li>Consider a fire blanket in the kitchen — simple, no expiry, works on small pan fires and clothing.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>This page is for general education only — not a substitute for hands-on training from your local fire department.</p>
+    <p>In an emergency, always call <strong>911</strong> (or your local emergency number).</p>
+  </footer>
+</body>
+</html>

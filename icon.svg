@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Swift programming language logo">
+  <defs>
+    <linearGradient id="swift-orange" x1="32" y1="24" x2="224" y2="232" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FA8F3E"/>
+      <stop offset="0.55" stop-color="#F05138"/>
+      <stop offset="1" stop-color="#D4281A"/>
+    </linearGradient>
+    <linearGradient id="swift-green" x1="32" y1="24" x2="224" y2="232" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7DDB8A"/>
+      <stop offset="0.55" stop-color="#34C759"/>
+      <stop offset="1" stop-color="#1E8E3E"/>
+    </linearGradient>
+  </defs>
+
+  <rect
+    width="256"
+    height="256"
+    rx="58"
+    fill="url(#swift-green)"
+    stroke="#000000"
+    stroke-width="8"
+  />
+
+  <!-- Classic Swift swallow mark (flipped upside down) -->
+  <g transform="rotate(180 128 128)">
+    <path
+      fill="url(#swift-orange)"
+      d="
+        M 95.6 32.5
+        c 25.9 -23.6 65.6 -27.4 95.4 -8.7
+        c -5.8 8.4 -13.7 15.5 -22.9 20.8
+        c 25.6 8.3 44.4 31.4 47.1 58.7
+        c -12.3 -6.6 -26.5 -9.5 -40.6 -8.9
+        c 23.8 22.3 33.6 56.6 27.4 88.9
+        c -23.8 -18.1 -46 -41.7 -62.3 -68.8
+        c -16.3 27.1 -38.5 50.7 -62.3 68.8
+        c -6.2 -32.3 3.6 -66.6 27.4 -88.9
+        c -14.1 -0.6 -28.3 2.3 -40.6 8.9
+        c 2.7 -27.3 21.5 -50.4 47.1 -58.7
+        c -9.2 -5.3 -17.1 -12.4 -22.9 -20.8
+        c 29.8 -18.7 69.5 -14.9 95.4 8.7
+        z
+      "
+    />
+  </g>
+</svg>
